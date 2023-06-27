@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const bcryptjs = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
 const User = require("../models/user");
 
 const router = express.Router();
@@ -102,6 +104,41 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({
       error: err,
       message: "Impossible to update user.",
+    });
+  }
+});
+
+router.post("/login", async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+
+    if (!user) {
+      return res.status(400).send("Invalid email.");
+    }
+
+    if (user && bcryptjs.compareSync(req.body.password, user.passwordHash)) {
+      const token = jwt.sign(
+        {
+          userId: user._id,
+          isAdmin: user.isAdmin,
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "30d",
+        }
+      );
+
+      return res.status(200).json({
+        user: user.email,
+        token,
+      });
+    }
+
+    return res.status(400).send("Invalid email or password.");
+  } catch (err) {
+    res.status(500).json({
+      error: err,
+      message: "Impossible to login.",
     });
   }
 });
