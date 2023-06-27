@@ -6,6 +6,7 @@ const cors = require("cors");
 
 const itemRouter = require("./routers/itemRoutes");
 const categoryRouter = require("./routers/categoryRoutes");
+const userRouter = require("./routers/userRoutes");
 
 require("dotenv").config();
 
@@ -18,8 +19,9 @@ app.use(express.json());
 app.use(cors());
 app.options("*", cors());
 
-app.use(`${url}/items`, itemRouter);
+app.use(`${url}/item`, itemRouter);
 app.use(`${url}/category`, categoryRouter);
+app.use(`${url}/user`, userRouter);
 
 mongoose
   .connect(process.env.CONNECTION_STRING, {
