@@ -6,13 +6,20 @@ const uploads = require("../management/multer");
 const Category = require("../models/category");
 
 router.get("/", async (req, res) => {
-  const items = await Item.find().populate("category");
+  try {
+    const items = await Item.find().populate("category");
 
-  if (!items) {
-    return res.status(400).send("No items found.");
+    if (!items) {
+      return res.status(400).send("No items found.");
+    }
+
+    return res.status(200).send(items);
+  } catch (err) {
+    res.status(500).json({
+      error: err,
+      message: "Impossible to get items.",
+    });
   }
-
-  return res.status(200).send(items);
 });
 
 router.post("/", uploads.single("image"), async (req, res) => {
@@ -45,54 +52,61 @@ router.post("/", uploads.single("image"), async (req, res) => {
   } catch (err) {
     res.status(500).json({
       error: err,
-      message: "Impossible to create product.",
+      message: "Impossible to create item.",
     });
   }
 });
 
 router.put("/:id", uploads.single("image"), async (req, res) => {
-  if (!mongoose.isValidObjectId(req.params.id)) {
-    return res.status(400).send("Invalid Id");
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(400).send("Invalid Id");
+    }
+
+    const category = await Category.findById(req.body.category);
+    if (!category) {
+      return res.status(400).send("Invalid category Id");
+    }
+
+    const item = await Item.findById(req.params.id);
+    if (!item) {
+      return res.status(400).send("Invalid item Id");
+    }
+
+    const file = req.file;
+    let image;
+
+    if (file) {
+      const fileName = file.filename;
+      const path = `${req.protocol}://${req.get("host")}/public/images/`;
+      image = `${path}${fileName}`;
+    } else {
+      image = item.image;
+    }
+
+    const modifiedItem = await Item.findByIdAndUpdate(
+      req.params.id,
+      {
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price,
+        image: image,
+        category: req.body.category,
+      },
+      { new: true }
+    );
+
+    if (!modifiedItem) {
+      return res.status(500).send("The item cannot be updated.");
+    }
+
+    res.status(200).json(modifiedItem);
+  } catch (err) {
+    res.status(500).json({
+      error: err,
+      message: "Impossible to update item.",
+    });
   }
-
-  const category = await Category.findById(req.body.category);
-  if (!category) {
-    return res.status(400).send("Invalid category Id");
-  }
-
-  const item = await Item.findById(req.params.id);
-  if (!item) {
-    return res.status(400).send("Invalid item Id");
-  }
-
-  const file = req.file;
-  let image;
-
-  if (file) {
-    const fileName = file.filename;
-    const path = `${req.protocol}://${req.get("host")}/public/images/`;
-    image = `${path}${fileName}`;
-  } else {
-    image = item.image;
-  }
-
-  const modifiedItem = await Item.findByIdAndUpdate(
-    req.params.id,
-    {
-      name: req.body.name,
-      description: req.body.description,
-      price: req.body.price,
-      image: image,
-      category: req.body.category,
-    },
-    { new: true }
-  );
-
-  if (!modifiedItem) {
-    return res.status(500).send("The item cannot be updated.");
-  }
-
-  res.status(200).json(modifiedItem);
 });
 
 router.delete("/:id", async (req, res) => {
