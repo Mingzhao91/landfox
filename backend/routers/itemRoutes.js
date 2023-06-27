@@ -95,4 +95,21 @@ router.put("/:id", uploads.single("image"), async (req, res) => {
   res.status(200).json(modifiedItem);
 });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const deletedItem = await Item.findByIdAndRemove(req.params.id);
+
+    if (!deletedItem) {
+      return res.status(400).send("Item not found.");
+    }
+
+    return res.status(200).send("Item deleted successfully.");
+  } catch (err) {
+    res.status(500).json({
+      error: err,
+      message: "Error durring item deletion.",
+    });
+  }
+});
+
 module.exports = router;
