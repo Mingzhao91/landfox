@@ -68,4 +68,42 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  try {
+    const userInfo = await User.findById(req.params.id);
+
+    if (!userInfo) {
+      return res.status(400).send("No user found.");
+    }
+
+    let newPasswordHash = userInfo.passwordHash;
+
+    if (req.body.password) {
+      newPasswordHash = bcryptjs.hashSync(req.body.password);
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        email: req.body.email,
+        passwordHash: newPasswordHash,
+        isAdmin: req.body.isAdmin,
+      },
+      {
+        new: true,
+      }
+    );
+
+    if (!user) {
+      return res.status(400).send("Unable to update user");
+    }
+    return res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({
+      error: err,
+      message: "Impossible to update user.",
+    });
+  }
+});
+
 module.exports = router;
