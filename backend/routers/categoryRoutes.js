@@ -71,7 +71,7 @@ router.delete("/:id", async (req, res) => {
   } catch (err) {
     res.status(500).json({
       error: err,
-      message: "Error durring category deletion.",
+      message: "Error during category deletion.",
     });
   }
 });
