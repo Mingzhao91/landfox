@@ -8,6 +8,7 @@ const cors = require("cors");
 const itemRouter = require("./routers/itemRoutes");
 const categoryRouter = require("./routers/categoryRoutes");
 const userRouter = require("./routers/userRoutes");
+const cartRouter = require("./routers/cartRoutes");
 
 require("dotenv").config();
 
@@ -24,6 +25,7 @@ app.options("*", cors());
 app.use(`${url}/item`, itemRouter);
 app.use(`${url}/category`, categoryRouter);
 app.use(`${url}/user`, userRouter);
+app.use(`${url}/cart`, cartRouter);
 
 mongoose
   .connect(process.env.CONNECTION_STRING, {
