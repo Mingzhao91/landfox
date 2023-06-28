@@ -23,6 +23,23 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id).populate("category");
+
+    if (!item) {
+      return res.status(400).send("No item was found.");
+    }
+
+    return res.status(200).send(item);
+  } catch (err) {
+    res.status(500).json({
+      error: err,
+      message: "Impossible to get item.",
+    });
+  }
+});
+
 router.post("/", uploads.single("image"), async (req, res) => {
   try {
     const category = await Category.findById(req.body.category);
@@ -37,8 +54,6 @@ router.post("/", uploads.single("image"), async (req, res) => {
 
     const fileName = req.file.filename;
     const path = `${req.protocol}://${req.get("host")}/public/images/`;
-
-    console.log("path: ", path);
 
     let item = new Item({
       name: req.body.name,
