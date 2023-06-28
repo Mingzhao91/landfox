@@ -3,6 +3,7 @@ const app = express();
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 //const jwtBlock = require("./management/jwt");
 
 const itemRouter = require("./routers/itemRoutes");
@@ -17,6 +18,7 @@ const url = process.env.URL;
 // Middlewares
 app.use(morgan("tiny"));
 app.use(express.json());
+app.use("/public", express.static(path.join(__dirname, "public")));
 // app.use(jwtBlock());
 // cors
 app.use(cors());
