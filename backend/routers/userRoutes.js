@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const users = await User.find().select("-passwordHash");
+    const users = await User.find();
 
     if (!users) {
       res.status(400).send("No users found.");
@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select("-passwordHash");
+    const user = await User.findById(req.params.id);
 
     if (!user) {
       res.status(400).send("No user found");
