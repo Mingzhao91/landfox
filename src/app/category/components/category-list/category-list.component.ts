@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 import { Category } from '../../models/category';
 import { CategoryService } from '../../services/category.service';
@@ -11,7 +12,7 @@ import { CategoryService } from '../../services/category.service';
 @Component({
   selector: 'app-category-list',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatIconModule],
+  imports: [CommonModule, MatTableModule, MatIconModule, MatButtonModule],
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss'],
 })
