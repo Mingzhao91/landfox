@@ -33,7 +33,9 @@ export class CategoryService {
     );
   }
 
-  deleteCategory(categoryId: string): Observable<Category> {
-    return this.http.delete<Category>(`${this.apiURLCategories}/${categoryId}`);
+  deleteCategory(categoryId: string): Observable<string> {
+    return this.http.delete(`${this.apiURLCategories}/${categoryId}`, {
+      responseType: 'text',
+    });
   }
 }
