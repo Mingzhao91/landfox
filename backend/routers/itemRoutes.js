@@ -63,8 +63,8 @@ router.post("/", uploads.single("image"), async (req, res) => {
       category: req.body.category,
     });
 
-    await item.save();
-    return res.status(201).send("Items created successfully!");
+    const savedItem = await item.save();
+    return res.status(200).json(savedItem);
   } catch (err) {
     res.status(500).json({
       error: err,
@@ -101,15 +101,15 @@ router.put("/:id", uploads.single("image"), async (req, res) => {
     }
 
     const modifiedItem = await Item.findByIdAndUpdate(
-      req.params.id,
-      {
+      req.params.id, {
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
         image: image,
         category: req.body.category,
-      },
-      { new: true }
+      }, {
+        new: true
+      }
     );
 
     if (!modifiedItem) {
