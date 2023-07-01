@@ -6,10 +6,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { Item } from '../../models/item.interface';
 
 import { ItemService } from '../../services/item.service';
+import { ItemDialogComponent } from '../item-dialog/item-dialog.component';
 
 @Component({
   selector: 'app-item-list-admin',
@@ -20,6 +22,7 @@ import { ItemService } from '../../services/item.service';
     MatIconModule,
     RouterModule,
     MatButtonModule,
+    MatDialogModule,
   ],
   templateUrl: './item-list-admin.component.html',
   styleUrls: ['./item-list-admin.component.scss'],
@@ -28,6 +31,7 @@ export class ItemListAdminComponent {
   destroyRef = inject(DestroyRef);
   itemService = inject(ItemService);
   router = inject(Router);
+  dialog = inject(MatDialog);
 
   items!: Item[];
   displayedColumns: string[] = [
@@ -54,5 +58,19 @@ export class ItemListAdminComponent {
       });
   }
 
-  onDeleteItem(item: Item) {}
+  onDeleteItem(item: Item) {
+    const dialogRef = this.dialog.open(ItemDialogComponent, {
+      data: { name: item.name },
+    });
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.itemService
+          .deleteItem(item._id)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe(() => {
+            this.getItems();
+          });
+      }
+    });
+  }
 }
