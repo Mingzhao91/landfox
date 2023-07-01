@@ -10,7 +10,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Category } from '../../models/category.interface';
 import { CategoryService } from '../../services/category.service';
 
-import { CategoryDialogComponent } from '../category-dialog/category-dialog.component';
+import { DialogDeletionComponent } from '../../../shared/components/dialog-deletion/dialog-deletion.component';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -23,7 +23,6 @@ import { RouterLink } from '@angular/router';
     MatIconModule,
     MatButtonModule,
     MatDialogModule,
-    CategoryDialogComponent,
   ],
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss'],
@@ -49,7 +48,7 @@ export class CategoryListComponent {
   }
 
   onDeleteCategory(category: Category) {
-    const dialogRef = this.dialog.open(CategoryDialogComponent, {
+    const dialogRef = this.dialog.open(DialogDeletionComponent, {
       data: { name: category.name },
     });
 

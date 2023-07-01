@@ -11,7 +11,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Item } from '../../models/item.interface';
 
 import { ItemService } from '../../services/item.service';
-import { ItemDialogComponent } from '../item-dialog/item-dialog.component';
+import { DialogDeletionComponent } from '../../../shared/components/dialog-deletion/dialog-deletion.component';
 
 @Component({
   selector: 'app-item-list-admin',
@@ -59,7 +59,7 @@ export class ItemListAdminComponent {
   }
 
   onDeleteItem(item: Item) {
-    const dialogRef = this.dialog.open(ItemDialogComponent, {
+    const dialogRef = this.dialog.open(DialogDeletionComponent, {
       data: { name: item.name },
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
