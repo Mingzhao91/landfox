@@ -1,0 +1,15 @@
+.item-card {
+  max-width: 400px;
+  margin: 10px;
+}
+
+.item-header-image {
+  background-image: url("../../../../assets/images/logo.png");
+  background-size: cover;
+}
+
+.global {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
