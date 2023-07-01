@@ -13,7 +13,7 @@ export class ItemService {
   http = inject(HttpClient);
   apiURLItem = `${environment.apiURL}/item`;
 
-  getAllItems(): Observable<Item[]> {
+  getItems(): Observable<Item[]> {
     return this.http.get<Item[]>(this.apiURLItem);
   }
 
