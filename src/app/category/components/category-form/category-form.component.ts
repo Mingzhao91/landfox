@@ -7,14 +7,17 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
+import { filter, switchMap } from 'rxjs';
 
 import { CategoryService } from '../../services/category.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter, map, switchMap } from 'rxjs';
+import { Category } from '../../models/category';
 
 @Component({
   selector: 'app-category-form',
@@ -26,6 +29,8 @@ import { filter, map, switchMap } from 'rxjs';
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
+    MatSnackBarModule,
+    RouterModule,
   ],
   templateUrl: './category-form.component.html',
   styleUrls: ['./category-form.component.scss'],
@@ -33,8 +38,10 @@ import { filter, map, switchMap } from 'rxjs';
 export class CategoryFormComponent implements OnInit {
   formBuilder = inject(FormBuilder);
   route = inject(ActivatedRoute);
+  router = inject(Router);
   destroyRef = inject(DestroyRef);
   categoryService = inject(CategoryService);
+  snackBar = inject(MatSnackBar);
   isSubmitted = false;
   editMode = false;
   currentCategoryId!: string;
@@ -70,5 +77,53 @@ export class CategoryFormComponent implements OnInit {
           categoryType: category.categoryType,
         });
       });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+      duration: 4000,
+    });
+  }
+
+  addCategory(category: Category) {
+    this.categoryService
+      .createCategory(category)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(async (newCategory) => {
+        this.isSubmitted = false;
+        const isNavigated = await this.router.navigate(['/categories/list']);
+
+        if (isNavigated) {
+          this.openSnackBar(
+            `You added ${newCategory.name} as new category`,
+            'Okay'
+          );
+        }
+      });
+  }
+
+  updateCategory(category: Category) {
+    this.categoryService
+      .updateCategory(category)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(async (newCategory) => {
+        this.isSubmitted = false;
+        const isNavigated = await this.router.navigate(['/categories/list']);
+
+        if (isNavigated) {
+          this.openSnackBar(`You updated ${newCategory.name} category`, 'Okay');
+        }
+      });
+  }
+
+  onSubmit() {
+    this.isSubmitted = true;
+    const category: Category = {
+      _id: this.currentCategoryId,
+      ...this.categoryForm.getRawValue(),
+    };
+    this.editMode ? this.updateCategory(category) : this.addCategory(category);
   }
 }
