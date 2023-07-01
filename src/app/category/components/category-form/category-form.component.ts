@@ -17,7 +17,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { filter, switchMap } from 'rxjs';
 
 import { CategoryService } from '../../services/category.service';
-import { Category } from '../../models/category';
+import { Category } from '../../models/category.interface';
 
 @Component({
   selector: 'app-category-form',

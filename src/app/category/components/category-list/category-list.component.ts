@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
-import { Category } from '../../models/category';
+import { Category } from '../../models/category.interface';
 import { CategoryService } from '../../services/category.service';
 
 import { CategoryDialogComponent } from '../category-dialog/category-dialog.component';

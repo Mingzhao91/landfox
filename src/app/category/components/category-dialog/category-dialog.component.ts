@@ -8,7 +8,7 @@ import {
   MatDialogModule,
 } from '@angular/material/dialog';
 
-import { Category } from '../../models/category';
+import { Category } from '../../models/category.interface';
 
 @Component({
   selector: 'app-category-dialog',

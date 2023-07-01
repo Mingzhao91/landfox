@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 
-import { Category } from '../models/category';
+import { Category } from '../models/category.interface';
 
 @Injectable({
   providedIn: 'root',
