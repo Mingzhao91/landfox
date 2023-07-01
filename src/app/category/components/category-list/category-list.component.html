@@ -38,7 +38,8 @@
       <td mat-cell
           *matCellDef="let element">
         <button mat-icon-button
-                color="primary">
+                color="primary"
+                [routerLink]="['/categories/form/', element._id]">
           <mat-icon>edit</mat-icon>
         </button>
       </td>

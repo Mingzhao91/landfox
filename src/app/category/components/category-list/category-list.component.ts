@@ -11,12 +11,14 @@ import { Category } from '../../models/category';
 import { CategoryService } from '../../services/category.service';
 
 import { CategoryDialogComponent } from '../category-dialog/category-dialog.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-category-list',
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
     MatTableModule,
     MatIconModule,
     MatButtonModule,
