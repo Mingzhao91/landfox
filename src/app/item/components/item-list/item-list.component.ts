@@ -6,6 +6,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { MatCardModule } from '@angular/material/card';
@@ -26,6 +27,7 @@ import { CategoryService } from '../../../category/services/category.service';
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
     ReactiveFormsModule,
     FormsModule,
     MatCardModule,
@@ -43,6 +45,7 @@ export class ItemListComponent implements OnInit {
   destroyRef = inject(DestroyRef);
   itemService = inject(ItemService);
   categoryService = inject(CategoryService);
+  router = inject(Router);
 
   items!: Item[];
   categories!: Category[];
@@ -55,9 +58,7 @@ export class ItemListComponent implements OnInit {
   ngOnInit(): void {
     this.getItems();
     this.getCategories();
-    this.searchForm = this.formBuilder.group({
-      term: [''],
-    });
+    this.initSearchForm();
   }
 
   getItems() {
@@ -76,6 +77,12 @@ export class ItemListComponent implements OnInit {
       .subscribe((categories) => {
         this.categories = categories;
       });
+  }
+
+  initSearchForm() {
+    this.searchForm = this.formBuilder.group({
+      term: [''],
+    });
   }
 
   filterItems(value: string) {
@@ -106,5 +113,7 @@ export class ItemListComponent implements OnInit {
     return isShown;
   }
 
-  forwardToSingleItem(itemId: string) {}
+  forwardToSingleItem(itemId: string) {
+    this.router.navigate([`/items/single-item/${itemId}`]);
+  }
 }
