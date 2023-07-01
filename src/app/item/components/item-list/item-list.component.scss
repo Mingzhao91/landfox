@@ -8,14 +8,20 @@
   background-size: cover;
 }
 
+.global {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .dropdown {
   display: flex;
   justify-content: center;
-  margin-top: 10px;
+  margin: 5px;
 }
 
-.global {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+.search {
+  position: absolute;
+  right: 100px;
 }
