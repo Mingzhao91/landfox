@@ -1,1 +1,35 @@
-<p>category-form works!</p>
+<form [formGroup]="categoryForm">
+  <div class="global">
+
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput
+               type="text"
+               formControlName="name">
+      </mat-form-field>
+      <div *ngIf="categoryForm.get('name')?.invalid && isSubmitted"
+           style="color: red">Name is required
+      </div>
+    </div>
+
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Category Type</mat-label>
+        <input matInput
+               type="text"
+               formControlName="categoryType">
+      </mat-form-field>
+      <div *ngIf="categoryForm.get('categoryType')?.invalid && isSubmitted"
+           style="color: red">Category type is required
+      </div>
+    </div>
+
+    <div>
+      <button mat-raised-button
+              color="accent">Submit
+      </button>
+    </div>
+
+  </div>
+</form>
