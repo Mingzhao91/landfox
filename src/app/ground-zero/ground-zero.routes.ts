@@ -8,6 +8,15 @@ export const routes: Routes = [
     component: GroundZeroComponent,
     children: [
       {
+        path: '',
+        redirectTo: 'items',
+        pathMatch: 'full',
+      },
+      {
+        path: 'items',
+        loadChildren: () => import('../item/item.routes').then((m) => m.routes),
+      },
+      {
         path: 'categories',
         loadChildren: () =>
           import('../category/category.routes').then((m) => m.routes),
