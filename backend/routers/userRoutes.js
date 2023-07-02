@@ -129,7 +129,7 @@ router.post("/login", async (req, res) => {
       );
 
       return res.status(200).json({
-        user: user.email,
+        user: user._id.toString(),
         token,
         isAdmin: user.isAdmin
       });

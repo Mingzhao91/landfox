@@ -24,7 +24,7 @@ export class AuthService {
       })
       .pipe(
         map((userInfo) => {
-          localStorage.setItem('user', JSON.stringify(userInfo.user));
+          localStorage.setItem('user', userInfo.user);
 
           localStorage.setItem(
             'userAdmin',
