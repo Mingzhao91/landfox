@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -12,6 +12,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterLink } from '@angular/router';
+
+import { AuthService } from '../../services/auth.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { UserLoginResponse } from '../../models/user.interface';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -30,6 +35,9 @@ import { RouterLink } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   formBuilder = inject(FormBuilder);
+  destroyRef = inject(DestroyRef);
+  authService = inject(AuthService);
+  localStorageService = inject(LocalStorageService);
 
   loginForm!: FormGroup;
   isSubmitted = false;
@@ -46,5 +54,21 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onSubmit() {}
+  onSubmit() {
+    this.isSubmitted = true;
+    this.authService
+      .login(
+        this.loginForm.get('email')?.value,
+        this.loginForm.get('password')?.value
+      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (user: UserLoginResponse) => {
+          this.localStorageService.setToken(user.token);
+        },
+        error: (err) => {
+          this.authError = err;
+        },
+      });
+  }
 }
