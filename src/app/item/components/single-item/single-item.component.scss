@@ -1,0 +1,34 @@
+.item-image {
+  max-height: 300px;
+  max-width: 300px;
+}
+
+.global {
+  display: flex;
+  justify-content: center;
+}
+
+.column {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+table {
+  width: 400px;
+}
+
+.back {
+  margin: 10px;
+}
+
+table tr {
+  width: 200px;
+  text-align: center;
+}
+
+th td {
+  text-align: center;
+}

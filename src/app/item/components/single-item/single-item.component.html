@@ -1,0 +1,46 @@
+<button class="back"
+        mat-raised-button
+        color="primary"
+        (click)="backToShop()">
+  <mat-icon>keyboard_return</mat-icon>
+  Back to shop
+</button>
+
+<ng-container *ngIf="item">
+  <div class="global">
+    <img class="item-image"
+         [src]="item.image" />
+    <div class="column">
+      <div>
+        <table class="table">
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Icon</th>
+          </tr>
+          <tr>
+            <td>{{item.name}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.price}}</td>
+            <td>{{item.category.name}}</td>
+            <td>
+              <mat-icon>
+                {{item.category.categoryType}}
+              </mat-icon>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div>
+        <button mat-flat-button
+                color="accent"
+                (click)="addToCart(item)">
+          Add To Cart
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>
