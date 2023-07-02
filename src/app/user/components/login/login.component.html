@@ -1,0 +1,59 @@
+<div class="global">
+  <div class="form">
+    <form [formGroup]="loginForm"
+          (ngSubmit)="onSubmit()">
+      <div *ngIf="isSubmitted && authError">
+        <span style="color: red;">Invalid email or password</span>
+      </div>
+
+      <div>
+
+        <div class="form-field-wrapper">
+          <mat-form-field appearance="fill"
+                          subscriptSizing="dynamic">
+            <mat-label>Email</mat-label>
+            <input matInput
+                   type="email"
+                   formControlName="email">
+          </mat-form-field>
+
+          <mat-error *ngIf=" loginForm.get('email')?.touched  && loginForm.get('email')?.hasError('email')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf=" loginForm.get('email')?.touched  && loginForm.get('email')?.hasError('required')">
+            Email is required
+          </mat-error>
+        </div>
+
+        <div class="form-field-wrapper">
+          <mat-form-field appearance="fill"
+                          subscriptSizing="dynamic">
+            <mat-label>Password</mat-label>
+            <input matInput
+                   type="password"
+                   formControlName="password">
+          </mat-form-field>
+
+          <mat-error *ngIf=" loginForm.get('password')?.touched  && loginForm.get('password')?.invalid">
+            Please enter a valid password address
+          </mat-error>
+        </div>
+
+
+        <div>
+          <button mat-raised-button
+                  color="accent"
+                  type="submit"
+                  [disabled]="loginForm.invalid || isSubmitted">Login
+          </button>
+        </div>
+
+        <div>
+          <a>Forgot your password?</a><br>
+          <a routerLink="/users/register">No account? Create one here!</a>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
