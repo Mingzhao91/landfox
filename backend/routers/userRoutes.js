@@ -43,7 +43,9 @@ router.get("/:id", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   try {
-    const existingUser = await User.findOne({ email: req.body.email });
+    const existingUser = await User.findOne({
+      email: req.body.email
+    });
 
     if (existingUser) {
       return res.status(400).send("User is already existed.");
@@ -85,13 +87,11 @@ router.put("/:id", async (req, res) => {
     }
 
     const user = await User.findByIdAndUpdate(
-      req.params.id,
-      {
+      req.params.id, {
         email: req.body.email,
         passwordHash: newPasswordHash,
         isAdmin: req.body.isAdmin,
-      },
-      {
+      }, {
         new: true,
       }
     );
@@ -110,20 +110,20 @@ router.put("/:id", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({
+      email: req.body.email
+    });
 
     if (!user) {
       return res.status(400).send("Invalid email.");
     }
 
     if (user && bcryptjs.compareSync(req.body.password, user.passwordHash)) {
-      const token = jwt.sign(
-        {
+      const token = jwt.sign({
           userId: user._id,
           isAdmin: user.isAdmin,
         },
-        process.env.JWT_SECRET,
-        {
+        process.env.JWT_SECRET, {
           expiresIn: "30d",
         }
       );
@@ -131,6 +131,7 @@ router.post("/login", async (req, res) => {
       return res.status(200).json({
         user: user.email,
         token,
+        isAdmin: user.isAdmin
       });
     }
 
