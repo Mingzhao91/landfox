@@ -68,6 +68,7 @@ export class LoginComponent implements OnInit {
         },
         error: (err) => {
           this.authError = err;
+          this.isSubmitted = false;
         },
       });
   }

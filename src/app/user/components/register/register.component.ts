@@ -70,6 +70,7 @@ export class RegisterComponent implements OnInit {
         },
         error: (err) => {
           this.authError = err;
+          this.isSubmitted = false;
         },
       });
   }

@@ -2,7 +2,7 @@
   <div class="form">
     <form [formGroup]="loginForm"
           (ngSubmit)="onSubmit()">
-      <div *ngIf="isSubmitted && authError">
+      <div *ngIf="authError">
         <span style="color: red;">Invalid email or password</span>
       </div>
 
