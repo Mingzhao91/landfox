@@ -1,0 +1,59 @@
+<div class="global">
+  <div class="form">
+    <form [formGroup]="signupForm"
+          (ngSubmit)="onSubmit()">
+      <div *ngIf="isSubmitted && authError">
+        <span style="color: red;">Invalid email or password</span>
+      </div>
+
+      <div>
+
+        <div class="form-field-wrapper">
+          <mat-form-field appearance="fill"
+                          subscriptSizing="dynamic">
+            <mat-label>Email</mat-label>
+            <input matInput
+                   type="email"
+                   formControlName="email">
+          </mat-form-field>
+
+          <mat-error *ngIf=" signupForm.get('email')?.touched  && signupForm.get('email')?.hasError('email')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf=" signupForm.get('email')?.touched  && signupForm.get('email')?.hasError('required')">
+            Email is required
+          </mat-error>
+        </div>
+
+        <div class="form-field-wrapper">
+          <mat-form-field appearance="fill"
+                          subscriptSizing="dynamic">
+            <mat-label>Password</mat-label>
+            <input matInput
+                   type="password"
+                   formControlName="password">
+          </mat-form-field>
+
+          <mat-error *ngIf=" signupForm.get('password')?.touched  && signupForm.get('password')?.invalid">
+            Please enter a valid password address
+          </mat-error>
+        </div>
+
+
+        <div class="form-field-wrapper center">
+          <button mat-raised-button
+                  color="accent"
+                  type="submit"
+                  [disabled]="signupForm.invalid || isSubmitted">Sign Up
+          </button>
+        </div>
+
+        <div class="form-field-wrapper center">
+          <a>Forgot your password?</a>
+          <a routerLink="/users/login">Already registered ? Sign In here !</a>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
