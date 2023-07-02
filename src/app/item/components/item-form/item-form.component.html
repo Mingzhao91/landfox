@@ -1,0 +1,89 @@
+<div class="container">
+  <form [formGroup]="itemForm"
+        (ngSubmit)="onSubmit()">
+    <div class="vertical-align">
+
+      <div class="form-field-wrapper">
+        <mat-form-field appearance="fill"
+                        subscriptSizing="dynamic">
+          <mat-label>Name</mat-label>
+          <input matInput
+                 type="text"
+                 formControlName="name">
+        </mat-form-field>
+
+        <mat-error *ngIf=" itemForm.get('name')?.touched  && itemForm.get('name')?.invalid">
+          Name is required
+        </mat-error>
+      </div>
+
+
+      <div class="form-field-wrapper">
+        <mat-form-field appearance="fill"
+                        subscriptSizing="dynamic">
+          <mat-label>Description</mat-label>
+          <textarea matInput
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="5"
+                    formControlName="description">
+          </textarea>
+        </mat-form-field>
+
+        <mat-error *ngIf=" itemForm.get('description')?.touched  && itemForm.get('description')?.invalid">
+          Description is required
+        </mat-error>
+      </div>
+
+      <div class="form-field-wrapper">
+        <mat-form-field appearance="fill"
+                        subscriptSizing="dynamic">
+          <mat-label>Price</mat-label>
+          <input matInput
+                 type="number"
+                 placeholder="£"
+                 formControlName="price">
+        </mat-form-field>
+
+        <mat-error *ngIf=" itemForm.get('price')?.touched  && itemForm.get('price')?.invalid">
+          Price is required
+        </mat-error>
+      </div>
+
+      <div class="form-field-wrapper image-container">
+
+        <mat-label>Image</mat-label>
+        <input type="file"
+               accept="image/*"
+               (click)="itemForm.get('image')?.markAsTouched()"
+               (change)="onImageUpload($event)">
+      </div>
+
+      <div class="form-field-wrapper">
+        <mat-form-field appearance="fill"
+                        subscriptSizing="dynamic">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category">
+            <mat-option *ngFor="let category of categories"
+                        [value]="category._id">{{category.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="itemForm.get('category')?.touched && itemForm.get('category')?.invalid">
+            Category is required
+          </mat-error>
+
+        </mat-form-field>
+      </div>
+
+      <div>
+        <button type="submit"
+                mat-raised-button
+                color="accent"
+                [disabled]="itemForm.invalid">
+          Submit
+        </button>
+      </div>
+
+    </div>
+  </form>
+</div>
