@@ -23,7 +23,7 @@ import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 
-import { filter, switchMap, take } from 'rxjs';
+import { filter, of, switchMap, take } from 'rxjs';
 
 import { Category } from 'src/app/category/models/category.interface';
 import { ItemService } from '../../services/item.service';
@@ -115,8 +115,8 @@ export class ItemFormComponent implements OnInit {
   checkEditMode() {
     this.route.params
       .pipe(
-        filter((params) => params['id']),
-        switchMap(({ id }) => {
+        switchMap((params) => of(params['id'])),
+        switchMap((id) => {
           this.editMode = true;
           this.currentItemId = id;
           return this.itemService.getItem(id);
