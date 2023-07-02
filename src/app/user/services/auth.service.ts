@@ -10,7 +10,7 @@ import { User, UserLoginResponse } from '../models/user.interface';
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
+export class AuthService {
   http = inject(HttpClient);
   router = inject(Router);
 
