@@ -14,7 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { filter, of, switchMap } from 'rxjs';
+import { of, switchMap } from 'rxjs';
 
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category.interface';
@@ -67,15 +67,17 @@ export class CategoryFormComponent implements OnInit {
         switchMap((id) => {
           this.editMode = true;
           this.currentCategoryId = id;
-          return this.categoryService.getCategory(id);
+          return id ? this.categoryService.getCategory(id) : of(null);
         }),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((category) => {
-        this.categoryForm.patchValue({
-          name: category.name,
-          categoryType: category.categoryType,
-        });
+        if (category) {
+          this.categoryForm.patchValue({
+            name: category.name,
+            categoryType: category.categoryType,
+          });
+        }
       });
   }
 
