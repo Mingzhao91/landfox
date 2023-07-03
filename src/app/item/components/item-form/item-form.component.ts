@@ -119,19 +119,21 @@ export class ItemFormComponent implements OnInit {
         switchMap((id) => {
           this.editMode = true;
           this.currentItemId = id;
-          return this.itemService.getItem(id);
+          return id ? this.itemService.getItem(id) : of(null);
         }),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((item) => {
-        this.imageDisplay = item.image;
+        if (item) {
+          this.imageDisplay = item.image;
 
-        this.itemForm.patchValue({
-          name: item.name,
-          description: item.description,
-          price: item.price,
-          category: item.category._id,
-        });
+          this.itemForm.patchValue({
+            name: item.name,
+            description: item.description,
+            price: item.price,
+            category: item.category._id,
+          });
+        }
       });
   }
 
