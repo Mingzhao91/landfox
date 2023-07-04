@@ -44,4 +44,24 @@ export class AuthService {
       isAdmin,
     });
   }
+
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiURLUser);
+  }
+
+  getUser(userId: string): Observable<User> {
+    return this.http.get<User>(`${this.apiURLUser}/${userId}`);
+  }
+
+  createUser(user: User): Observable<User> {
+    return this.http.post<User>(`${this.apiURLUser}/register`, user);
+  }
+
+  updateUser(user: User, userId: string): Observable<User> {
+    return this.http.put<User>(`${this.apiURLUser}/${userId}`, user);
+  }
+
+  deleteUser(userId: string): Observable<User> {
+    return this.http.delete<User>(`${this.apiURLUser}/${userId}`);
+  }
 }
