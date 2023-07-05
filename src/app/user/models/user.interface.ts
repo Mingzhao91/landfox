@@ -1,7 +1,8 @@
 export interface User {
   _id: string;
   email: string;
-  password: string;
+  passwordHash?: string; // retrieve
+  password?: string; // update/create
   isAdmin: boolean;
 }
 
