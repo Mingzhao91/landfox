@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 const TOKEN = 'jwt-token';
+const USER_ID = 'user';
 
 @Injectable({
   providedIn: 'root',
@@ -16,5 +17,9 @@ export class LocalStorageService {
 
   removeToken() {
     localStorage.removeItem(TOKEN);
+  }
+
+  getUserId() {
+    return localStorage.getItem(USER_ID);
   }
 }
