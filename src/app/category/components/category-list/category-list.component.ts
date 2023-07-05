@@ -49,7 +49,7 @@ export class CategoryListComponent {
 
   onDeleteCategory(category: Category) {
     const dialogRef = this.dialog.open(DialogDeletionComponent, {
-      data: { name: category.name },
+      data: { name: `this category: ${category.name}` },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {

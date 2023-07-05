@@ -60,7 +60,7 @@ export class ItemListAdminComponent {
 
   onDeleteItem(item: Item) {
     const dialogRef = this.dialog.open(DialogDeletionComponent, {
-      data: { name: item.name },
+      data: { name: `this item: ${item.name}` },
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
