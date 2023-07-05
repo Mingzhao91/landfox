@@ -65,7 +65,7 @@ export class CategoryFormComponent implements OnInit {
       .pipe(
         switchMap((params) => of(params['id'])),
         switchMap((id) => {
-          this.editMode = true;
+          this.editMode = id !== undefined;
           this.currentCategoryId = id;
           return id ? this.categoryService.getCategory(id) : of(null);
         }),

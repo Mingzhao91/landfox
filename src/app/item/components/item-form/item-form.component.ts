@@ -117,7 +117,7 @@ export class ItemFormComponent implements OnInit {
       .pipe(
         switchMap((params) => of(params['id'])),
         switchMap((id) => {
-          this.editMode = true;
+          this.editMode = id !== undefined;
           this.currentItemId = id;
           return id ? this.itemService.getItem(id) : of(null);
         }),
