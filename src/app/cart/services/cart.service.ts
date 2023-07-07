@@ -11,7 +11,10 @@ const CART = 'cart';
 })
 export class CartService {
   cart$: BehaviorSubject<Cart> = new BehaviorSubject(this.getCart());
-  localStorageService = inject(LocalStorageService);
+
+  constructor(private localStorageService: LocalStorageService) {
+    this.initialCartLocalStorage();
+  }
 
   initialCartLocalStorage() {
     const cart: Cart = this.getCart();
