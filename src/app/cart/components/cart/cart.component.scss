@@ -4,10 +4,21 @@
 }
 
 .under {
+  display: flex;
+  justify-content: space-evenly;
   margin: 10px;
 }
 
 .global {
   display: flex;
   justify-content: center;
+}
+
+.centered {
+  text-align: center;
+  color: rgb(142, 92, 188);
+}
+
+.btn-valid {
+  text-align: center;
 }
