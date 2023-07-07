@@ -37,12 +37,12 @@ export class CartService {
   setCartItem(cartItem: CartItem) {
     const cart = this.getCart();
     const cartItemExist = cart.cartItems.find(
-      (item) => item._id === cartItem._id
+      (item) => item.item._id === cartItem.item._id
     );
 
     if (cartItemExist) {
       cart.cartItems.map((item) => {
-        if (item._id === cartItem._id) {
+        if (item.item._id === cartItem.item._id) {
           item.quantity = item.quantity + cartItem.quantity;
         }
       });
