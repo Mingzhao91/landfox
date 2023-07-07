@@ -25,7 +25,6 @@ export class HeaderComponent implements OnInit {
     this.cartService.cart$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((cart) => {
-        console.log('cart: ', cart);
         this.cartCount = cart.cartItems.length ?? 0;
       });
   }
