@@ -7,20 +7,30 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { CartService } from '../../services/cart.service';
 import { ItemService } from '../../../item/services/item.service';
 import { take } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    MatSnackBarModule,
+  ],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit {
   destroyRef = inject(DestroyRef);
+  snackBar = inject(MatSnackBar);
   cartService = inject(CartService);
   itemService = inject(ItemService);
 
@@ -53,5 +63,19 @@ export class CartComponent implements OnInit {
       });
   }
 
-  removeItem(index: number, item: CartItem) {}
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+      duration: 4000,
+    });
+  }
+
+  removeItem(index: number, cartItem: CartItem) {
+    this.cartService.removeItem(index);
+    this.openSnackBar(
+      `You deleted ${cartItem.item.name} from the cart`,
+      'Okay'
+    );
+  }
 }
