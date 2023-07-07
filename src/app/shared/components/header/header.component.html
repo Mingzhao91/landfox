@@ -38,7 +38,8 @@
               class="left-space"
               mat-icon-button
               color="accent">
-        <mat-icon>add_shopping_cart</mat-icon>
+        <mat-icon [matBadge]="cartCount"
+                  matBadgeColor="warn">add_shopping_cart</mat-icon>
       </button>
     </div>
   </div>
