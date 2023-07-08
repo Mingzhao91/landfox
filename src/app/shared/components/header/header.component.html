@@ -12,13 +12,16 @@
            width="150px">
     </div>
     <div class="creds">
-      <a routerLink="/users/login">Login</a>
+      <a *ngIf="!isLoggedIn()"
+         routerLink="/users/login">Login</a>
     </div>
     <div>
-      <a routerLink="/users/register">Register</a>
+      <a *ngIf="!isLoggedIn()"
+         routerLink="/users/register">Register</a>
     </div>
     <div>
-      <a routerLink="/logout">Logout</a>
+      <a *ngIf="isLoggedIn()"
+         (click)="logout()">Logout</a>
     </div>
     <div class="icons">
       <button mat-icon-button
@@ -49,13 +52,16 @@
       <a routerLink="/">Items</a>
     </div>
     <div>
-      <a routerLink="/categories/list">Categories</a>
+      <a *ngIf="userIsAdmin"
+         routerLink="/categories/list">Categories</a>
     </div>
     <div>
-      <a routerLink="/users/list">Users</a>
+      <a *ngIf="userIsAdmin"
+         routerLink="/users/list">Users</a>
     </div>
     <div>
-      <a routerLink="/items/list">Manage Items</a>
+      <a *ngIf="userIsAdmin"
+         routerLink="/items/list">Manage Items</a>
     </div>
 
   </div>
